@@ -4,670 +4,347 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>City of Records - 가영의 도시</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Serif(Playfair Display), Sans-serif(Noto Sans KR) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    /* 폰트 적용 */
-    .font-serif-brand {
-      font-family: 'Playfair Display', 'Noto Sans KR', serif;
+    .font-serif-brand { font-family: 'Playfair Display', 'Noto Sans KR', serif; }
+    .font-sans-brand { font-family: 'Noto Sans KR', sans-serif; }
+    html { scroll-behavior: smooth; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { transition: background-color 0.8s ease; }
+    ::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 3px; }
+    body.theme-light { background: linear-gradient(to bottom, #bae6fd 0%, #e0f2fe 35%, #f1f5f9 70%, #fef3c7 100%); color: #1e293b; }
+    body.theme-light ::-webkit-scrollbar-track { background: #f1f5f9; }
+    body.theme-dark { background: linear-gradient(to bottom, #020617 0%, #070a1e 30%, #0f172a 70%, #1e1b4b 100%); color: #F5F5F0; }
+    body.theme-dark ::-webkit-scrollbar-track { background: #020617; }
+    body, header, main, footer, div, span, h1, h2, h3, h4, h5, h6, p, svg, path, rect, circle, button, a {
+      transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s cubic-bezier(0.4, 0, 0.2, 1), fill 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .font-sans-brand {
-      font-family: 'Noto Sans KR', sans-serif;
-    }
-
-    /* 부드러운 스크롤 애니메이션 */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* 스크롤바 커스텀 */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #020617; /* Slate 950 */
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #f59e0b; /* Amber 500 */
-      border-radius: 3px;
-    }
-
-    /* 감성적인 그라데이션 및 밤하늘 배경 */
-    .midnight-bg {
-      background: linear-gradient(to bottom, #020617 0%, #070a1e 30%, #0f172a 70%, #1e1b4b 100%);
-    }
-
-    /* 구름 흘러가는 애니메이션 */
-    @keyframes floatCloud {
-      0% { transform: translateX(-10%); }
-      50% { transform: translateX(10%); }
-      100% { transform: translateX(-10%); }
-    }
-    .cloud-anim {
-      animation: floatCloud 25s ease-in-out infinite;
-    }
-
-    /* 은은하게 빛나는 별 효과 */
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.3; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.1); }
-    }
-    .star-pulse {
-      animation: pulseGlow 3s infinite ease-in-out;
-    }
-
-    /* 2D 입면도 건물 스타일 및 빛 번짐 효과 */
-    .building-facade {
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      filter: drop-shadow(0 0 2px rgba(15, 23, 42, 0.8));
-    }
-    
-    /* 호버 시 빌딩 전체가 살짝 선명해지며 위로 수려하게 반응 */
-    .building-interactive:hover .building-facade {
-      transform: translateY(-4px);
-      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
-    }
-
-    .building-window {
-      transition: all 0.5s ease;
-      fill: #1e293b; /* 꺼진 조명 */
-    }
-
-    .building-interactive:hover .building-window {
-      fill: #f59e0b; /* 켜진 웜 엠버 조명 */
-      filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.9));
-    }
+    @keyframes floatCloud { 0% { transform: translateX(-10%); } 50% { transform: translateX(10%); } 100% { transform: translateX(-10%); } }
+    .cloud-anim { animation: floatCloud 25s ease-in-out infinite; }
+    @keyframes pulseGlow { 0%, 100% { opacity: 0.3; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.1); } }
+    .star-pulse { animation: pulseGlow 3s infinite ease-in-out; }
+    .building-facade { filter: drop-shadow(0 2px 4px rgba(15, 23, 42, 0.15)); }
+    .building-interactive:hover .building-facade { transform: translateY(-4px); }
+    body.theme-dark .building-interactive:hover .building-facade { filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6)); }
+    body.theme-light .building-interactive:hover .building-facade { filter: drop-shadow(0 12px 24px rgba(100, 116, 139, 0.2)); }
+    body.theme-dark .building-base { fill: #0f172a; stroke: #334155; }
+    body.theme-light .building-base { fill: #f8fafc; stroke: #475569; }
+    body.theme-dark .building-roof { fill: #1e1b4b; stroke: #334155; }
+    body.theme-light .building-roof { fill: #94a3b8; stroke: #475569; }
+    body.theme-dark .building-door { fill: #1e293b; stroke: #334155; }
+    body.theme-light .building-door { fill: #cbd5e1; stroke: #475569; }
+    body.theme-dark .building-window { fill: #1e293b; }
+    body.theme-light .building-window { fill: #e2e8f0; }
+    .building-interactive:hover .building-window { fill: #f59e0b !important; filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.9)) !important; }
+    body.theme-dark .street-row-border { border-color: rgba(51, 65, 85, 0.8); }
+    body.theme-light .street-row-border { border-color: rgba(148, 163, 184, 0.8); }
   </style>
 </head>
-<body class="midnight-bg font-sans-brand text-[#F5F5F0] overflow-x-hidden min-h-screen selection:bg-amber-500 selection:text-slate-950">
+<body class="theme-light font-sans-brand overflow-x-hidden min-h-screen selection:bg-amber-400 selection:text-slate-900">
 
-  <!-- 1. HERO SECTION (상단 타이틀 & 스크롤 유도) -->
+  <div class="fixed top-6 right-6 z-50">
+    <button onclick="toggleTheme()" class="flex items-center gap-2 px-4 py-2 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-300 dark:border-slate-700 rounded-full shadow-lg hover:border-amber-500 hover:scale-105 active:scale-95 transition-all duration-300 group">
+      <span id="icon-sun" class="text-lg leading-none">☀️</span>
+      <span id="icon-moon" class="text-lg leading-none hidden">🌙</span>
+      <span id="theme-btn-text" class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider font-mono">Day</span>
+    </button>
+  </div>
+
   <header class="relative w-full min-h-screen flex flex-col justify-between items-center px-6 py-12 z-10 overflow-hidden">
-    <!-- 흘러가는 구름 레이어 -->
-    <div class="absolute inset-0 pointer-events-none opacity-20">
+    <div class="absolute inset-0 pointer-events-none opacity-40">
       <svg class="absolute top-[20%] left-[-10%] w-[120%] h-auto cloud-anim" viewBox="0 0 1000 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M150 150 C200 100, 300 120, 350 150 C400 120, 500 110, 550 160 C600 120, 700 130, 750 180 C800 140, 900 160, 950 200 L1000 300 L0 300 Z" fill="#475569" />
+        <path id="cloud-vector" d="M150 150 C200 110, 300 130, 350 150 C400 110, 500 100, 550 160 C600 110, 700 120, 750 180 C800 130, 900 150, 950 200 L1000 300 L0 300 Z" fill="#ffffff" />
       </svg>
     </div>
 
-    <!-- 밤하늘을 밝히는 은은한 보름달 -->
-    <div class="absolute top-[15%] right-[10%] md:right-[20%] w-32 h-32 md:w-48 md:h-48 rounded-full bg-amber-50 opacity-10 filter blur-md pointer-events-none"></div>
-    <div class="absolute top-[15%] right-[10%] md:right-[20%] w-32 h-32 md:w-48 md:h-48 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 opacity-20 pointer-events-none flex items-center justify-center">
-      <div class="w-[90%] h-[90%] rounded-full border border-amber-300/30"></div>
+    <div id="sky-celestial-blur" class="absolute top-[15%] right-[10%] md:right-[20%] w-32 h-32 md:w-48 md:h-48 rounded-full bg-amber-200 opacity-30 filter blur-xl pointer-events-none"></div>
+    <div class="absolute top-[15%] right-[10%] md:right-[20%] w-32 h-32 md:w-48 md:h-48 rounded-full bg-gradient-to-br from-amber-300 to-orange-400 opacity-40 pointer-events-none flex items-center justify-center">
+      <div id="celestial-hollow-ring" class="w-[90%] h-[90%] rounded-full border border-amber-100/40"></div>
     </div>
 
-    <!-- 밤하늘의 무수한 별빛들 -->
     <div class="absolute inset-0 pointer-events-none">
-      <div class="absolute top-[10%] left-[15%] w-1 h-1 bg-white rounded-full star-pulse" style="animation-delay: 0.2s;"></div>
-      <div class="absolute top-[25%] left-[45%] w-1.5 h-1.5 bg-amber-200 rounded-full star-pulse" style="animation-delay: 1.5s;"></div>
-      <div class="absolute top-[40%] left-[80%] w-1 h-1 bg-white rounded-full star-pulse" style="animation-delay: 0.8s;"></div>
-      <div class="absolute top-[65%] left-[25%] w-1.5 h-1.5 bg-amber-100 rounded-full star-pulse" style="animation-delay: 2.3s;"></div>
-      <div class="absolute top-[15%] left-[70%] w-1.5 h-1.5 bg-white rounded-full star-pulse" style="animation-delay: 1.1s;"></div>
+      <div class="absolute top-[10%] left-[15%] w-1.5 h-1.5 bg-amber-400/60 rounded-full star-pulse" style="animation-delay: 0.2s;"></div>
+      <div class="absolute top-[25%] left-[45%] w-2 h-2 bg-white rounded-full star-pulse" style="animation-delay: 1.5s;"></div>
+      <div class="absolute top-[40%] left-[80%] w-1.5 h-1.5 bg-amber-300/80 rounded-full star-pulse" style="animation-delay: 0.8s;"></div>
+      <div class="absolute top-[65%] left-[25%] w-2 h-2 bg-white rounded-full star-pulse" style="animation-delay: 2.3s;"></div>
+      <div class="absolute top-[15%] left-[70%] w-2 h-2 bg-amber-400/50 rounded-full star-pulse" style="animation-delay: 1.1s;"></div>
     </div>
 
-    <!-- 빈 박스로 균형 맞춤 -->
     <div></div>
 
-    <!-- 상단 중앙 헤드라인 -->
     <div class="text-center max-w-4xl mx-auto px-4 transform translate-y-12 transition-all duration-1000">
-      <span class="text-xs md:text-sm tracking-[0.4em] text-amber-400 font-medium uppercase block mb-6">Interactive Brand City</span>
-      <h1 class="text-4xl md:text-7xl font-serif-brand font-bold text-amber-100 leading-tight tracking-tight mb-8">
+      <span id="hero-tagline-pre" class="text-xs md:text-sm tracking-[0.4em] text-sky-700 font-semibold uppercase block mb-6">Interactive Brand City</span>
+      <h1 id="hero-title" class="text-4xl md:text-7xl font-serif-brand font-bold text-sky-950 leading-tight tracking-tight mb-8">
         City of Records
       </h1>
-      <p class="text-lg md:text-2xl font-light text-slate-300 leading-relaxed mb-6 font-serif-brand italic">
+      <p id="hero-desc" class="text-lg md:text-2xl font-light text-slate-700 leading-relaxed mb-6 font-serif-brand italic">
         "건물마다 켜진 불빛, 그 안에 담긴 가영의 기록을 만나보세요."
       </p>
-      <div class="w-16 h-[1px] bg-amber-400/50 mx-auto mb-6"></div>
-      <p class="text-sm md:text-base text-slate-400 max-w-lg mx-auto font-light leading-relaxed">
+      <div id="hero-divider" class="w-16 h-[2px] bg-amber-500/60 mx-auto mb-6"></div>
+      <p id="hero-subtext" class="text-sm md:text-base text-slate-600 max-w-lg mx-auto font-light leading-relaxed">
         이 도시는 저를 담은 하나의 도시입니다.<br>
       </p>
     </div>
 
-    <!-- 스크롤 유도 인디케이터 -->
-    <a href="#explore-city" class="flex flex-col items-center gap-3 group text-slate-400 hover:text-amber-400 transition-colors duration-300 cursor-pointer mb-6">
+    <a href="#explore-city" id="scroll-indicator" class="flex flex-col items-center gap-3 group text-slate-500 hover:text-amber-600 transition-colors duration-300 cursor-pointer mb-6">
       <span class="text-xs tracking-[0.3em] font-medium">SCROLL DOWN</span>
-      <div class="w-6 h-10 border-2 border-slate-600 group-hover:border-amber-400 rounded-full flex justify-center p-1 transition-colors duration-300">
-        <div class="w-1.5 h-3 bg-slate-400 group-hover:bg-amber-400 rounded-full animate-bounce"></div>
+      <div class="w-6 h-10 border-2 border-slate-400 group-hover:border-amber-500 rounded-full flex justify-center p-1 transition-colors duration-300">
+        <div class="w-1.5 h-3 bg-slate-500 group-hover:bg-amber-500 rounded-full animate-bounce"></div>
       </div>
     </a>
   </header>
 
-  <!-- 방명록 별자리가 쌓일 밤하늘 연동 스페이스 -->
   <div id="sky-canvas-container" class="relative w-full h-[15vh] pointer-events-none overflow-hidden">
-    <div id="constellation-sky" class="absolute inset-0 px-10 md:px-24">
-      <!-- 동적으로 생성된 방명록 별들이 위치하게 됨 -->
-    </div>
+    <div id="constellation-sky" class="absolute inset-0 px-10 md:px-24"></div>
   </div>
 
-  <!-- 2. EXPLORATION SECTION (2D 일러스트 야경 입면도 수평 레이아웃) -->
-  <main id="explore-city" class="relative w-full py-12 md:py-16 border-t border-slate-900/50 overflow-hidden">
-    
-    <!-- 가로로 부드럽게 스크롤되는 일러스트 야경 거리 -->
-    <div class="overflow-x-auto scrollbar-thin pb-4">
-      <div class="relative flex items-end justify-start min-w-[1200px] h-[520px] px-16 md:px-32">
+  <main id="explore-city" class="relative w-full py-12 md:py-16 overflow-hidden">
+    <div class="overflow-x-auto scrollbar-thin pb-12">
+      <div class="relative min-w-[1000px] px-16 md:px-32 flex flex-col justify-end">
         
-        <!-- 단 하나의 공통 바닥선 (수평 도로선) -->
-        <div class="absolute left-0 right-0 bottom-12 h-[2px] bg-slate-700/80 z-10"></div>
-        
-        <!-- [건물 1] HOME : 나의 집 (Identity) -->
-        <div onclick="openBuildingModal('home')" class="building-interactive group cursor-pointer relative h-[480px] w-48 mx-8 flex flex-col justify-end items-center z-20 select-none">
-          <!-- 카테고리 (건물 상단 고정) -->
-          <span class="absolute top-0 text-xs font-serif-brand italic text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">01. Space of Me</span>
+        <!-- 중앙 정렬 완료 -->
+        <div class="relative flex items-end justify-center w-full border-b-2 street-row-border pb-0 mb-12 z-20">
           
-          <!-- 건물 입면도 (바닥선에 밀착하도록 mb-12 및 h-full w-auto block 처리) -->
-          <div class="building-facade h-[280px] w-full mb-12 flex items-end justify-center">
-            <svg class="h-full w-auto block" viewBox="0 0 100 150" fill="none" preserveAspectRatio="xMidYBottom meet" xmlns="http://www.w3.org/2000/svg">
-              <!-- 빌딩 외관 구조 -->
-              <rect x="5" y="20" width="90" height="130" fill="#0f172a" stroke="#334155" stroke-width="2.5"/>
-              <path d="M0 20 L50 -5 L100 20 Z" fill="#1e1b4b" stroke="#334155" stroke-width="2.5"/>
-              
-              <!-- 아늑한 분위기의 격자 창문 (Amber 반응형) -->
-              <rect class="building-window" x="20" y="35" width="16" height="22" rx="2"/>
-              <rect class="building-window" x="42" y="35" width="16" height="22" rx="2"/>
-              <rect class="building-window" x="64" y="35" width="16" height="22" rx="2"/>
-              <rect class="building-window" x="20" y="70" width="16" height="22" rx="2"/>
-              <rect class="building-window" x="42" y="70" width="16" height="22" rx="2"/>
-              <rect class="building-window" x="64" y="70" width="16" height="22" rx="2"/>
-              
-              <!-- 중앙 현관문 -->
-              <rect x="40" y="110" width="20" height="40" fill="#1e293b" stroke="#334155" stroke-width="2"/>
-              <circle cx="45" cy="130" r="1.5" fill="#f59e0b"/>
-            </svg>
+          <div onclick="openBuildingModal('home')" class="building-interactive group cursor-pointer relative h-[440px] w-[180px] mx-8 flex flex-col justify-end items-center select-none">
+            <span id="cat-label-1" class="absolute top-0 text-xs font-serif-brand italic text-sky-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300">01. Space of Me</span>
+            <div class="building-facade h-[270px] w-full flex items-end justify-center">
+              <svg class="h-full w-auto block" viewBox="0 0 100 150" fill="none" preserveAspectRatio="xMidYBottom meet" xmlns="http://www.w3.org/2000/svg">
+                <rect class="building-base" x="5" y="20" width="90" height="130" stroke-width="2.5"/>
+                <path class="building-roof" d="M0 20 L50 -5 L100 20 Z" stroke-width="2.5"/>
+                <rect class="building-window" x="20" y="35" width="16" height="22" rx="2"/><rect class="building-window" x="42" y="35" width="16" height="22" rx="2"/><rect class="building-window" x="64" y="35" width="16" height="22" rx="2"/>
+                <rect class="building-window" x="20" y="70" width="16" height="22" rx="2"/><rect class="building-window" x="42" y="70" width="16" height="22" rx="2"/><rect class="building-window" x="64" y="70" width="16" height="22" rx="2"/>
+                <rect class="building-door" x="40" y="110" width="20" height="40" stroke-width="2"/><circle cx="45" cy="130" r="1.5" fill="#f59e0b"/>
+              </svg>
+            </div>
+            <div class="absolute bottom-[-36px] text-center w-full">
+              <span id="name-label-1" class="text-sm font-bold text-slate-600 group-hover:text-amber-600 transition-colors">나의 집</span>
+            </div>
           </div>
-          
-          <!-- 바닥선 아래쪽 텍스트 배치 구역 -->
-          <div class="absolute bottom-2 text-center w-full">
-            <span class="text-sm font-bold text-slate-300 group-hover:text-amber-300 transition-colors">나의 집</span>
-          </div>
-        </div>
 
-        <!-- [건물 2] OFFICE : 창조의 오피스 (Project & Tech) -->
-        <div onclick="openBuildingModal('office')" class="building-interactive group cursor-pointer relative h-[480px] w-48 mx-8 flex flex-col justify-end items-center z-20 select-none">
-          <!-- 카테고리 -->
-          <span class="absolute top-0 text-xs font-serif-brand italic text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">02. Lab & Craft</span>
-          
-          <!-- 건물 입면도 -->
-          <div class="building-facade h-[380px] w-full mb-12 flex items-end justify-center">
-            <svg class="h-full w-auto block" viewBox="0 0 100 200" fill="none" preserveAspectRatio="xMidYBottom meet" xmlns="http://www.w3.org/2000/svg">
-              <!-- 모던 고층형 빌딩 구조 -->
-              <rect x="10" y="10" width="80" height="190" fill="#0b1329" stroke="#334155" stroke-width="2.5"/>
-              <rect x="35" y="0" width="30" height="10" fill="#1e1b4b" stroke="#334155" stroke-width="1.5"/>
-              
-              <!-- 세련된 소형 다중격자 창문 (Amber 반응형) -->
-              <rect class="building-window" x="22" y="25" width="14" height="14"/>
-              <rect class="building-window" x="43" y="25" width="14" height="14"/>
-              <rect class="building-window" x="64" y="25" width="14" height="14"/>
-              <rect class="building-window" x="22" y="50" width="14" height="14"/>
-              <rect class="building-window" x="43" y="50" width="14" height="14"/>
-              <rect class="building-window" x="64" y="50" width="14" height="14"/>
-              <rect class="building-window" x="22" y="75" width="14" height="14"/>
-              <rect class="building-window" x="43" y="75" width="14" height="14"/>
-              <rect class="building-window" x="64" y="75" width="14" height="14"/>
-              <rect class="building-window" x="22" y="100" width="14" height="14"/>
-              <rect class="building-window" x="43" y="100" width="14" height="14"/>
-              <rect class="building-window" x="64" y="100" width="14" height="14"/>
-              <rect class="building-window" x="22" y="125" width="14" height="14"/>
-              <rect class="building-window" x="43" y="125" width="14" height="14"/>
-              <rect class="building-window" x="64" y="125" width="14" height="14"/>
-              
-              <!-- 유리 회전문 입구 -->
-              <rect x="35" y="160" width="30" height="40" fill="#1e293b" stroke="#334155" stroke-width="2"/>
-            </svg>
+          <div onclick="openBuildingModal('office')" class="building-interactive group cursor-pointer relative h-[440px] w-[190px] mx-8 flex flex-col justify-end items-center select-none">
+            <span id="cat-label-2" class="absolute top-0 text-xs font-serif-brand italic text-sky-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300">02. Lab & Craft</span>
+            <div class="building-facade h-[380px] w-full flex items-end justify-center">
+              <svg class="h-full w-auto block" viewBox="0 0 100 200" fill="none" preserveAspectRatio="xMidYBottom meet" xmlns="http://www.w3.org/2000/svg">
+                <rect class="building-base" x="10" y="10" width="80" height="190" stroke-width="2.5"/><rect class="building-roof" x="35" y="0" width="30" height="10" stroke-width="1.5"/>
+                <rect class="building-window" x="22" y="25" width="14" height="14"/><rect class="building-window" x="43" y="25" width="14" height="14"/><rect class="building-window" x="64" y="25" width="14" height="14"/>
+                <rect class="building-window" x="22" y="50" width="14" height="14"/><rect class="building-window" x="43" y="50" width="14" height="14"/><rect class="building-window" x="64" y="50" width="14" height="14"/>
+                <rect class="building-window" x="22" y="75" width="14" height="14"/><rect class="building-window" x="43" y="75" width="14" height="14"/><rect class="building-window" x="64" y="75" width="14" height="14"/>
+                <rect class="building-window" x="22" y="100" width="14" height="14"/><rect class="building-window" x="43" y="100" width="14" height="14"/><rect class="building-window" x="64" y="100" width="14" height="14"/>
+                <rect class="building-window" x="22" y="125" width="14" height="14"/><rect class="building-window" x="43" y="125" width="14" height="14"/><rect class="building-window" x="64" y="125" width="14" height="14"/>
+                <rect class="building-door" x="35" y="160" width="30" height="40" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="absolute bottom-[-36px] text-center w-full">
+              <span id="name-label-2" class="text-sm font-bold text-slate-600 group-hover:text-amber-600 transition-colors">창조의 오피스</span>
+            </div>
           </div>
-          
-          <!-- 바닥선 아래쪽 텍스트 배치 구역 -->
-          <div class="absolute bottom-2 text-center w-full">
-            <span class="text-sm font-bold text-slate-300 group-hover:text-amber-300 transition-colors">창조의 오피스</span>
-          </div>
-        </div>
 
-        <!-- [건물 3] CAFE : 교류의 테라스 (Tea & Chat) -->
-        <div onclick="openBuildingModal('cafe')" class="building-interactive group cursor-pointer relative h-[480px] w-64 mx-8 flex flex-col justify-end items-center z-20 select-none">
-          <!-- 카테고리 -->
-          <span class="absolute top-0 text-xs font-serif-brand italic text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">03. Add</span>
-          
-          <!-- 건물 입면도 -->
-          <div class="building-facade h-[220px] w-full mb-12 flex items-end justify-center">
-            <svg class="h-full w-auto block" viewBox="0 0 120 100" fill="none" preserveAspectRatio="xMidYBottom meet" xmlns="http://www.w3.org/2000/svg">
-              <!-- 편안한 단층형 카페 매장 구조 -->
-              <rect x="5" y="25" width="110" height="75" rx="2" fill="#0f172a" stroke="#334155" stroke-width="2.5"/>
-              <!-- 테라스 천막 어닝 -->
-              <path d="M0 25 L15 10 L105 10 L120 25 Z" fill="#334155" stroke="#475569" stroke-width="1.5"/>
-              
-              <!-- 커다란 전면 통유리창 조명 (Amber 반응형) -->
-              <rect class="building-window" x="15" y="38" width="38" height="38" rx="3"/>
-              <rect class="building-window" x="67" y="38" width="38" height="38" rx="3"/>
-              
-              <!-- 소형 입간판 형태 네온 엠블럼 -->
-              <circle cx="60" cy="85" r="5" fill="#1e1b4b" stroke="#334155"/>
-            </svg>
+          <div onclick="openBuildingModal('cafe')" class="building-interactive group cursor-pointer relative h-[440px] w-[264px] mx-8 flex flex-col justify-end items-center select-none">
+            <span id="cat-label-3" class="absolute top-0 text-xs font-serif-brand italic text-sky-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300">03. Add</span>
+            <div class="building-facade h-[220px] w-full flex items-end justify-center">
+              <svg class="h-full w-auto block" viewBox="0 0 120 100" fill="none" preserveAspectRatio="xMidYBottom meet" xmlns="http://www.w3.org/2000/svg">
+                <rect class="building-base" x="5" y="25" width="110" height="75" rx="2" stroke-width="2.5"/><path class="building-roof" d="M0 25 L15 10 L105 10 L120 25 Z" stroke-width="1.5"/>
+                <rect class="building-window" x="15" y="38" width="38" height="38" rx="3"/><rect class="building-window" x="67" y="38" width="38" height="38" rx="3"/>
+                <circle cx="60" cy="85" r="5" fill="#cbd5e1" stroke="#475569"/>
+              </svg>
+            </div>
+            <div class="absolute bottom-[-36px] text-center w-full">
+              <span id="name-label-3" class="text-sm font-bold text-slate-600 group-hover:text-amber-600 transition-colors">창고</span>
+            </div>
           </div>
-          
-          <!-- 바닥선 아래쪽 텍스트 배치 구역 -->
-          <div class="absolute bottom-2 text-center w-full">
-            <span class="text-sm font-bold text-slate-300 group-hover:text-amber-300 transition-colors">창고</span>
-          </div>
-        </div>
 
-        <!-- [건물 4] OBSERVATORY : 기록의 전망대 (Starry Night) -->
-        <div onclick="openBuildingModal('observatory')" class="building-interactive group cursor-pointer relative h-[480px] w-52 mx-8 flex flex-col justify-end items-center z-20 select-none">
-          <!-- 카테고리 -->
-          <span class="absolute top-0 text-xs font-serif-brand italic text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">04. Connect Universe</span>
-          
-          <!-- 건물 입면도 -->
-          <div class="building-facade h-[340px] w-full mb-12 flex items-end justify-center">
-            <svg class="h-full w-auto block" viewBox="0 0 100 170" fill="none" preserveAspectRatio="xMidYBottom meet" xmlns="http://www.w3.org/2000/svg">
-              <!-- 천체 관측 돔 타워 빌딩 구조 -->
-              <rect x="20" y="45" width="60" height="125" rx="3" fill="#0a122c" stroke="#334155" stroke-width="2.5"/>
-              <!-- 구형 천문대 지붕 -->
-              <path d="M15 45 C15 15, 85 15, 85 45 Z" fill="#1e1b4b" stroke="#334155" stroke-width="2.5"/>
-              <!-- 외부 망원경 경통 실루엣 -->
-              <path d="M50 30 L72 10 M67 8 L77 15" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
-              
-              <!-- 원형 관측 창문 및 세로 격자창 (Amber 반응형) -->
-              <circle class="building-window" cx="50" cy="65" r="14"/>
-              <rect class="building-window" x="30" y="100" width="14" height="25" rx="1"/>
-              <rect class="building-window" x="56" y="100" width="14" height="25" rx="1"/>
-            </svg>
+          <div onclick="openBuildingModal('observatory')" class="building-interactive group cursor-pointer relative h-[440px] w-[200px] mx-8 flex flex-col justify-end items-center select-none">
+            <span id="cat-label-4" class="absolute top-0 text-xs font-serif-brand italic text-sky-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300">04. Connect Universe</span>
+            <div class="building-facade h-[340px] w-full flex items-end justify-center">
+              <svg class="h-full w-auto block" viewBox="0 0 100 170" fill="none" preserveAspectRatio="xMidYBottom meet" xmlns="http://www.w3.org/2000/svg">
+                <rect class="building-base" x="20" y="45" width="60" height="125" rx="3" stroke-width="2.5"/><path class="building-roof" d="M15 45 C15 15, 85 15, 85 45 Z" stroke-width="2.5"/>
+                <path d="M50 30 L72 10 M67 8 L77 15" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+                <circle class="building-window" cx="50" cy="65" r="14"/><rect class="building-window" x="30" y="100" width="14" height="25" rx="1"/><rect class="building-window" x="56" y="100" width="14" height="25" rx="1"/>
+              </svg>
+            </div>
+            <div class="absolute bottom-[-36px] text-center w-full">
+              <span id="name-label-4" class="text-sm font-bold text-slate-600 group-hover:text-amber-600 transition-colors">전망대</span>
+            </div>
           </div>
-          
-          <!-- 바닥선 아래쪽 텍스트 배치 구역 -->
-          <div class="absolute bottom-2 text-center w-full">
-            <span class="text-sm font-bold text-slate-300 group-hover:text-amber-300 transition-colors">전망대</span>
-          </div>
-        </div>
 
+        </div>
       </div>
     </div>
   </main>
 
-  <!-- 3. DETAILED MODAL LAYER (점진적 발견을 위한 글래스모피즘 모달) -->
-  <div id="info-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden transition-all duration-300">
-    <div class="bg-slate-900/90 border border-slate-700/60 rounded-3xl w-full max-w-2xl overflow-hidden max-h-[85vh] flex flex-col shadow-2xl relative">
-      
-      <!-- 모달 상단 헤더 -->
-      <div class="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-950/50">
-        <div>
-          <span id="modal-category" class="text-xs uppercase tracking-widest text-amber-400 font-semibold">Category</span>
-          <h3 id="modal-title" class="text-2xl font-serif-brand font-bold text-amber-100 mt-1">Title</h3>
-        </div>
-        <button onclick="closeBuildingModal()" class="w-10 h-10 rounded-full border border-slate-800 text-slate-400 hover:text-amber-400 hover:border-amber-400/50 flex items-center justify-center transition-all duration-300">
-          ✕
-        </button>
+  <div id="info-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden transition-all duration-300">
+    <div id="modal-container" class="modal-bg border rounded-3xl w-full max-w-2xl overflow-hidden max-h-[85vh] flex flex-col shadow-2xl relative">
+      <div id="modal-header" class="p-6 border-b flex justify-between items-center">
+        <div><span id="modal-category" class="text-xs uppercase tracking-widest font-bold">Category</span><h3 id="modal-title" class="text-2xl font-serif-brand font-bold mt-1">Title</h3></div>
+        <button onclick="closeBuildingModal()" class="w-10 h-10 rounded-full border border-slate-200/60 text-slate-400 hover:text-amber-500 hover:border-amber-500/50 flex items-center justify-center transition-all duration-300">✕</button>
       </div>
-
-      <!-- 모달 바디 (스크롤 영역) -->
-      <div class="p-6 md:p-8 overflow-y-auto space-y-6">
-        
-        <!-- [컨텐츠] 정체성의 집 (Home) -->
+      <div class="p-6 md:p-8 overflow-y-auto space-y-6 modal-text">
         <div id="content-home" class="hidden space-y-6">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
-            <div>
-              <h4 class="text-3xl font-serif-brand font-bold text-amber-200">김가영 <span class="text-xs font-normal text-slate-400">(Ga-young Kim)</span></h4>
-              <p class="text-xs text-amber-400 mt-1">실내건축디자인학과 & AI학과 복수전공 | INFP</p>
-            </div>
-            <span class="text-xs px-3 py-1 bg-amber-500/10 text-amber-400 rounded-full border border-amber-500/20 self-start md:self-auto font-mono">
-              SSAFY 16th ing..
-            </span>
+          <div id="home-sub-header" class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4">
+            <div><h4 class="text-3xl font-serif-brand font-bold">김가영 <span class="text-xs font-normal text-slate-400">(Ga-young Kim)</span></h4><p class="text-xs text-sky-600 font-medium mt-1">실내건축디자인학과 & AI학과 복수전공 | INFP</p></div>
+            <span class="text-xs px-3 py-1 bg-sky-500/10 text-sky-700 rounded-full border border-sky-500/20 self-start md:self-auto font-mono font-semibold">SSAFY 16th ing..</span>
           </div>
-
-          <p class="text-slate-300 leading-relaxed text-sm md:text-base">
-            공간을 입체적으로 가꾸는 <strong>실내건축디자인</strong>의 감성과, 데이터를 분석해 보이지 않는 구조를 다듬는 <strong>AI</strong>학과의 기술력을 융합하고 있습니다. <br>
-            현재는 <strong>SSAFY(삼성청년SW아카데미)</strong>에서 매일 성장하는 중입니다.
-          </p>
-
+          <p class="leading-relaxed text-sm md:text-base">공간을 입체적으로 가꾸는 <strong>실내건축디자인</strong>의 감성과, 데이터를 분석해 보이지 않는 구조를 다듬는 <strong>AI</strong>학과의 기술력을 융합하고 있습니다.<br>현재는 <strong>SSAFY(삼성청년SW아카데미)</strong>에서 매일 성장하는 중입니다.</p>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="p-4 bg-slate-950/40 border border-slate-800 rounded-xl space-y-2">
-              <h5 class="text-amber-400 font-semibold text-xs flex items-center gap-1.5">
-                <span>🏡</span> INFP의 시선과 감성
-              </h5>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                섬세하고 사색적인 성향을 바탕으로, 단순한 개발 스택 나열을 넘어 협업 상대방과 유저가 공간과 제품에 깊은 애정을 가질 수 있는 따뜻한 인터랙션을 구현하려 고민합니다.
-              </p>
-            </div>
-            <div class="p-4 bg-slate-950/40 border border-slate-800 rounded-xl space-y-2">
-              <h5 class="text-amber-400 font-semibold text-xs flex items-center gap-1.5">
-                <span>💪</span> 나의 단단한 좌우명
-              </h5>
-              <p class="text-sm font-bold text-amber-100 font-serif-brand italic">"안되면 되게 하자!"</p>
-              <p class="text-[11px] text-slate-400 leading-relaxed">
-                익숙하지 않은 컴퓨터 언어를 마주하든 에러가 나든 물러서지 않습니다.
-              </p>
-            </div>
+            <div class="p-4 modal-card border rounded-xl space-y-2"><h5 class="text-sky-700 font-bold text-xs flex items-center gap-1.5"><span>🏡</span> INFP의 시선과 감성</h5><p class="text-xs leading-relaxed">섬세하고 사색적인 성향을 바탕으로, 단순한 개발 스택 나열을 넘어 협업 상대방과 유저가 공간과 제품에 깊은 애정을 가질 수 있는 따뜻한 인터랙션을 구현하려 고민합니다.</p></div>
+            <div class="p-4 modal-card border rounded-xl space-y-2"><h5 class="text-sky-700 font-bold text-xs flex items-center gap-1.5"><span>💪</span> 나의 단단한 좌우명</h5><p class="text-sm font-bold font-serif-brand italic">"안되면 되게 하자!"</p><p class="text-[11px] leading-relaxed">익숙하지 않은 컴퓨터 언어를 마주하든 에러가 나든 물러서지 않습니다.</p></div>
           </div>
         </div>
-
-        <!-- [컨텐츠] 창조의 오피스 (Office) -->
         <div id="content-office" class="hidden space-y-6">
-          <p class="text-slate-300 leading-relaxed text-sm">
-            창의적인 공간 기획과 AI 엔지니어링의 경계를 유기적으로 조합하여 직접 리드해 온 프로젝트 아카이브입니다.
-          </p>
-          
+          <p class="leading-relaxed text-sm">창의적인 공간 기획과 AI 엔지니어링의 경계를 유기적으로 조합하여 직접 리드해 온 프로젝트 아카이브입니다.</p>
           <div class="space-y-4">
-            <!-- 프로젝트 1 -->
-            <div class="p-5 bg-slate-950/50 border border-slate-800 rounded-2xl space-y-3">
-              <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
-                <div>
-                  <span class="text-xs text-amber-500 font-mono font-bold">EXHIBITION DESIGN</span>
-                  <h6 class="text-base font-semibold text-amber-100">Cabasse Exhibition Booth Design</h6>
-                </div>
-                <span class="text-[10px] px-2.5 py-0.5 bg-amber-500/10 text-amber-400 rounded-full border border-amber-500/20 self-start md:self-auto">팀장 | 3D디자인 | 영상 총괄</span>
-              </div>
-              <p class="text-xs text-slate-300 leading-relaxed">제9회 대학생 전시디자인 공모전 출품작으로, 감각적인 브랜드 시각 구조물 설계 및 가상 부스 렌더링 작업을 수행했습니다.</p>
-              <div class="flex flex-wrap gap-1.5 pt-1">
-                <span class="text-[10px] px-2 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-400">3ds Max</span>
-                <span class="text-[10px] px-2 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-400">Blender</span>
-                <span class="text-[10px] px-2 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-400">Photoshop</span>
-                <span class="text-[10px] px-2 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-400">After Effects</span>
-              </div>
+            <div class="p-5 modal-card border rounded-2xl space-y-3">
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-1"><div><span class="text-xs text-sky-600 font-mono font-bold">EXHIBITION DESIGN</span><h6 class="text-base font-bold">Cabasse Exhibition Booth Design</h6></div><span class="text-[10px] px-2.5 py-0.5 bg-sky-100 text-sky-800 rounded-full border border-sky-200 self-start md:self-auto font-medium">팀장 | 3D디자인 | 영상 총괄</span></div>
+              <p class="text-xs leading-relaxed">제9회 대학생 전시디자인 공모전 출품작으로, 감각적인 브랜드 시각 구조물 설계 및 가상 부스 렌더링 작업을 수행했습니다.</p>
             </div>
-
-            <!-- 프로젝트 2 -->
-            <div class="p-5 bg-slate-950/50 border border-slate-800 rounded-2xl space-y-3">
-              <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
-                <div>
-                  <span class="text-xs text-amber-500 font-mono font-bold">IOT HARDWARE</span>
-                  <h6 class="text-base font-semibold text-amber-100">아두이노 '온습도 반응형 가로등'</h6>
-                </div>
-                <span class="text-[10px] px-2.5 py-0.5 bg-amber-500/10 text-amber-400 rounded-full border border-amber-500/20 self-start md:self-auto">모형 제작 | 시연 영상 제작</span>
-              </div>
-              <p class="text-xs text-slate-300 leading-relaxed">온습도, 초음파 및 조도 센서를 연동하여 주변 물리 환경 정보에 입체적으로 감응하는 스마트 가로등 시제품을 디자인했습니다.</p>
-              <div class="flex flex-wrap gap-1.5 pt-1">
-                <span class="text-[10px] px-2 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-400">Arduino</span>
-              </div>
+            <div class="p-5 modal-card border rounded-2xl space-y-3">
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-1"><div><span class="text-xs text-sky-600 font-mono font-bold">IOT HARDWARE</span><h6 class="text-base font-bold">아두이노 '온습도 반응형 가로등'</h6></div><span class="text-[10px] px-2.5 py-0.5 bg-sky-100 text-sky-800 rounded-full border border-sky-200 self-start md:self-auto font-medium">모형 제작 | 시연 영상 제작</span></div>
+              <p class="text-xs leading-relaxed">온습도, 초음파 및 조도 센서를 연동하여 주변 물리 환경 정보에 입체적으로 감응하는 스마트 가로등 시제품을 디자인했습니다.</p>
             </div>
-
-            <!-- 프로젝트 3 -->
-            <div class="p-5 bg-slate-950/50 border border-slate-800 rounded-2xl space-y-3">
-              <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
-                <div>
-                  <span class="text-xs text-amber-500 font-mono font-bold">AI SYSTEM</span>
-                  <h6 class="text-base font-semibold text-amber-100">얼굴 표정 영상 인식 기반 정서 학습 시스템</h6>
-                </div>
-                <span class="text-[10px] px-2.5 py-0.5 bg-amber-500/10 text-amber-400 rounded-full border border-amber-500/20 self-start md:self-auto">앱 제작 | 디자인물 제작</span>
-              </div>
-              <p class="text-xs text-slate-300 leading-relaxed">인공지능 비전 기술을 통하여 학습자의 얼굴 미세 표정을 정교하게 트래킹하고, 이를 분석하여 능동적인 감성 피드백을 전달하는 솔루션 모바일 앱을 구현했습니다.</p>
-              <div class="flex flex-wrap gap-1.5 pt-1">
-                <span class="text-[10px] px-2 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-400">Android Studio</span>
-              </div>
+            <div class="p-5 modal-card border rounded-2xl space-y-3">
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-1"><div><span class="text-xs text-sky-600 font-mono font-bold">AI SYSTEM</span><h6 class="text-base font-bold">얼굴 표정 영상 인식 기반 정서 학습 시스템</h6></div><span class="text-[10px] px-2.5 py-0.5 bg-sky-100 text-sky-800 rounded-full border border-sky-200 self-start md:self-auto font-medium">앱 제작 | 디자인물 제작</span></div>
+              <p class="text-xs leading-relaxed">인공지능 비전 기술을 통하여 학습자의 얼굴 미세 표정을 정교하게 트래킹하고, 이를 분석하여 능동적인 감성 피드백을 전달하는 솔루션 모바일 앱을 구현했습니다.</p>
             </div>
           </div>
         </div>
-
-        <!-- [컨텐츠] 교류의 테라스 (Cafe) -->
         <div id="content-cafe" class="hidden space-y-6 py-4">
-          <div class="p-6 bg-slate-950/40 border border-slate-800 rounded-2xl space-y-4 max-w-md mx-auto shadow-inner">
-            <h5 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-3">
-              <span>🍀</span> Like
-            </h5>
-            <div class="space-y-4 text-xs md:text-sm text-slate-300">
-              <div class="flex items-center justify-between gap-4">
-                <span class="text-amber-500 font-semibold shrink-0">좋아하는 것</span>
-                <span class="text-right text-slate-200">맛집 찾아다니기</span>
-              </div>
-              <div class="flex items-center justify-between gap-4 border-t border-slate-800/50 pt-3">
-                <span class="text-amber-500 font-semibold shrink-0">좋아하는 말</span>
-                <span class="font-bold text-amber-100 text-right">"맛있는 거 먹으러 가자!"</span>
-              </div>
-              <div class="flex items-center justify-between gap-4 border-t border-slate-800/50 pt-3">
-                <span class="text-amber-500 font-semibold shrink-0">Playlist</span>
-                <span class="text-right text-slate-200">G-Dragon의 노래</span>
-              </div>
+          <div class="p-6 modal-card border rounded-2xl space-y-4 max-w-md mx-auto shadow-sm">
+            <h5 class="text-sm font-bold text-sky-700 uppercase tracking-wider flex items-center gap-2 border-b pb-3"><span>🍀</span> Taste & Life</h5>
+            <div class="space-y-4 text-xs md:text-sm">
+              <div class="flex items-center justify-between gap-4"><span class="font-semibold shrink-0">좋아하는 것</span><span class="text-right">맛집 찾아다니기</span></div>
+              <div class="flex items-center justify-between gap-4 border-t pt-3"><span class="font-semibold shrink-0">좋아하는 말</span><span class="font-bold text-right">"맛있는 거 먹으러 가자!"</span></div>
+              <div class="flex items-center justify-between gap-4 border-t pt-3"><span class="font-semibold shrink-0">Playlist</span><span class="text-right">G-Dragon의 노래</span></div>
             </div>
           </div>
         </div>
-
-        <!-- [컨텐츠] 기록의 전망대 (Observatory) -->
         <div id="content-observatory" class="hidden space-y-6">
-          <p class="text-slate-300 leading-relaxed text-sm">
-            저의 도시를 방문해 주셔서 진심으로 감사합니다. <br>
-            당신의 응원과 따뜻한 한 줄을 띄워 주시면, 이 넓은 은하수 위에 밝게 깜빡이는 <strong>새로운 오렌지빛 별 ✦</strong>로 태어나 기억될 것입니다.
-          </p>
-          
-          <!-- 방명록 입력 양식 -->
-          <form id="observatory-form" onsubmit="handleGuestbookSubmit(event)" class="space-y-4 p-5 bg-slate-950/60 border border-slate-800 rounded-2xl">
-            <div>
-              <label for="visitor-name" class="block text-xs font-semibold text-amber-400 mb-1">방문자 이름</label>
-              <input type="text" id="visitor-name" required placeholder="이름 혹은 별명을 입력해 주세요" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-4 py-2 text-sm text-[#F5F5F0] focus:outline-none focus:border-amber-500 transition-colors">
-            </div>
-            <div>
-              <label for="visitor-message" class="block text-xs font-semibold text-amber-400 mb-1">한 줄 방명록 메시지</label>
-              <textarea id="visitor-message" required rows="2" placeholder="따뜻한 응원이나 인사를 남겨주세요." class="w-full bg-slate-900 border border-slate-800 rounded-lg px-4 py-2 text-sm text-[#F5F5F0] focus:outline-none focus:border-amber-500 transition-colors"></textarea>
-            </div>
-            <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg text-sm transition-colors duration-300">
-              하늘에 가영의 별 띄우기 ✦
-            </button>
+          <p class="leading-relaxed text-sm">저의 도시를 방문해 주셔서 진심으로 감사합니다.<br>당신의 응원과 따뜻한 한 줄을 띄워 주시면, 이 넓은 하늘 위에 밝게 깜빡이는 <strong>새로운 한 조각의 빛 ✦</strong>으로 태어나 기억될 것입니다.</p>
+          <form id="observatory-form" onsubmit="handleGuestbookSubmit(event)" class="space-y-4 p-5 modal-card border rounded-2xl">
+            <div><label id="label-name" for="visitor-name" class="block text-xs font-bold text-sky-700 mb-1">방문자 이름</label><input type="text" id="visitor-name" required placeholder="이름 혹은 별명을 입력해 주세요" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-amber-500 transition-colors"></div>
+            <div><label id="label-msg" for="visitor-message" class="block text-xs font-bold text-sky-700 mb-1">한 줄 방명록 메시지</label><textarea id="visitor-message" required rows="2" placeholder="따뜻한 응원이나 인사를 남겨주세요." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-amber-500 transition-colors"></textarea></div>
+            <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold rounded-lg text-sm transition-colors duration-300">하늘에 별 띄우기 ✦</button>
           </form>
-
-          <!-- 최근 등록된 코멘트 확인 -->
-          <div class="space-y-3">
-            <h5 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">최근 반짝이는 별무리</h5>
-            <div id="guestbook-list" class="space-y-2 max-h-36 overflow-y-auto pr-2">
-              <!-- JS를 통해 리스트 출력 -->
-            </div>
-          </div>
+          <div class="space-y-3"><h5 class="text-xs font-bold text-slate-400 uppercase tracking-wider">최근 반짝이는 빛무리</h5><div id="guestbook-list" class="space-y-2 max-h-36 overflow-y-auto pr-2"></div></div>
         </div>
-
       </div>
     </div>
   </div>
 
-  <!-- 4. FOOTER -->
-  <footer class="border-t border-slate-900 bg-slate-950/40 py-12 px-6 text-center text-xs text-slate-500">
-    <p class="font-serif-brand text-amber-400/80 mb-2">"이 도시는 저를 담은 하나의 도시입니다."</p>
+  <footer class="border-t border-slate-200/40 dark:border-slate-800/40 bg-white/10 dark:bg-slate-950/20 py-12 px-6 text-center text-xs text-slate-500">
+    <p class="font-serif-brand text-sky-800/80 dark:text-amber-400/80 mb-2">"이 도시는 저를 담은 하나의 도시입니다."</p>
     <p>© 2026 Midnight Record. Powered by Ga-young Kim & Pure CSS/JS</p>
   </footer>
 
-  <!-- Web Audio API 연동 및 인터랙션 자바스크립트 -->
   <script>
-    // 1. Web Audio API를 활용한 미세 앰비언트 신스 사운드 벨 발생기
-    let audioCtx = null;
+    let currentTheme = 'light';
+    function toggleTheme() {
+      const body = document.body;
+      const sunIcon = document.getElementById('icon-sun');
+      const moonIcon = document.getElementById('icon-moon');
+      const btnText = document.getElementById('theme-btn-text');
+      const heroTag = document.getElementById('hero-tagline-pre');
+      const heroTitle = document.getElementById('hero-title');
+      const heroDesc = document.getElementById('hero-desc');
+      const heroSub = document.getElementById('hero-subtext');
+      const scrollInd = document.getElementById('scroll-indicator');
+      const catLabels = [document.getElementById('cat-label-1'), document.getElementById('cat-label-2'), document.getElementById('cat-label-3'), document.getElementById('cat-label-4')];
+      const nameLabels = [document.getElementById('name-label-1'), document.getElementById('name-label-2'), document.getElementById('name-label-3'), document.getElementById('name-label-4')];
 
-    function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (currentTheme === 'light') {
+        currentTheme = 'dark'; body.classList.remove('theme-light'); body.classList.add('theme-dark');
+        sunIcon.classList.add('hidden'); moonIcon.classList.remove('hidden'); btnText.innerText = 'Night'; btnText.className = "text-xs font-bold text-[#F5F5F0] uppercase tracking-wider font-mono";
+        heroTag.className = "text-xs md:text-sm tracking-[0.4em] text-amber-400 font-medium uppercase block mb-6";
+        heroTitle.className = "text-4xl md:text-7xl font-serif-brand font-bold text-amber-100 leading-tight tracking-tight mb-8";
+        heroDesc.className = "text-lg md:text-2xl font-light text-slate-300 leading-relaxed mb-6 font-serif-brand italic";
+        heroSub.className = "text-sm md:text-base text-slate-400 max-w-lg mx-auto font-light leading-relaxed";
+        scrollInd.className = "flex flex-col items-center gap-3 group text-slate-400 hover:text-amber-400 transition-colors duration-300 cursor-pointer mb-6";
+        catLabels.forEach(l => { if(l) l.className = "absolute top-0 text-xs font-serif-brand italic text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"; });
+        nameLabels.forEach(l => { if(l) l.className = "text-sm font-bold text-slate-300 group-hover:text-amber-300 transition-colors"; });
+        document.getElementById('cloud-vector').setAttribute('fill', '#475569');
+      } else {
+        currentTheme = 'light'; body.classList.remove('theme-dark'); body.classList.add('theme-light');
+        moonIcon.classList.add('hidden'); sunIcon.classList.remove('hidden'); btnText.innerText = 'Day'; btnText.className = "text-xs font-bold text-slate-700 uppercase tracking-wider font-mono";
+        heroTag.className = "text-xs md:text-sm tracking-[0.4em] text-sky-700 font-semibold uppercase block mb-6";
+        heroTitle.className = "text-4xl md:text-7xl font-serif-brand font-bold text-sky-950 leading-tight tracking-tight mb-8";
+        heroDesc.className = "text-lg md:text-2xl font-light text-slate-700 leading-relaxed mb-6 font-serif-brand italic";
+        heroSub.className = "text-sm md:text-base text-slate-600 max-w-lg mx-auto font-light leading-relaxed";
+        scrollInd.className = "flex flex-col items-center gap-3 group text-slate-500 hover:text-amber-600 transition-colors duration-300 cursor-pointer mb-6";
+        catLabels.forEach(l => { if(l) l.className = "absolute top-0 text-xs font-serif-brand italic text-sky-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"; });
+        nameLabels.forEach(l => { if(l) l.className = "text-sm font-bold text-slate-600 group-hover:text-amber-600 transition-colors"; });
+        document.getElementById('cloud-vector').setAttribute('fill', '#ffffff');
       }
+      generateConstellationSky(); playWarmBell(440);
     }
-
+    let audioCtx = null;
+    function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
     function playWarmBell(freq = 440) {
       try {
-        initAudio();
-        if (!audioCtx) return;
-
-        // 볼륨 감쇄를 위한 GainNode 생성
-        const gainNode = audioCtx.createGain();
-        // 오실레이터(발진기) 생성
-        const osc = audioCtx.createOscillator();
-        const osc2 = audioCtx.createOscillator();
-
-        osc.type = 'sine'; // 아주 포근한 기본 사인파
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-        osc2.type = 'triangle'; // 배음 강화를 위한 부드러운 삼각파
-        osc2.frequency.setValueAtTime(freq * 1.5, audioCtx.currentTime); // 완전 5도음 레이어링
-
-        // 볼륨 커브 디자인 (벨 소리의 ADSR 느낌)
-        gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.05); // 빠른 어택
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.8); // 기나긴 릴리즈
-
-        osc.connect(gainNode);
-        osc2.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        osc.start();
-        osc2.start();
-        osc.stop(audioCtx.currentTime + 2.0);
-        osc2.stop(audioCtx.currentTime + 2.0);
-      } catch (e) {
-        console.warn('Web Audio API 활성화 필요:', e);
-      }
+        initAudio(); if (!audioCtx) return;
+        const gainNode = audioCtx.createGain(); const osc = audioCtx.createOscillator(); const osc2 = audioCtx.createOscillator();
+        osc.type = 'sine'; osc.frequency.setValueAtTime(freq, audioCtx.currentTime); osc2.type = 'triangle'; osc2.frequency.setValueAtTime(freq * 1.5, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(0, audioCtx.currentTime); gainNode.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.05); gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.8);
+        osc.connect(gainNode); osc2.connect(gainNode); gainNode.connect(audioCtx.destination);
+        osc.start(); osc2.start(); osc.stop(audioCtx.currentTime + 2.0); osc2.stop(audioCtx.currentTime + 2.0);
+      } catch (e) {}
     }
-
-    // 2. 모달 제어 시스템
     const modal = document.getElementById('info-modal');
-    const categories = {
-      home: { title: '정체성의 집', category: 'About Me & Values', sound: 349.23 }, // F4
-      office: { title: '창조의 오피스', category: 'Projects & Tech', sound: 392.00 }, // G4
-      cafe: { title: '교류의 테라스', category: 'Taste & Life', sound: 440.00 }, // A4
-      observatory: { title: '기록의 전망대', category: 'Leave a Starry Voice', sound: 523.25 } // C5
-    };
-
+    const categories = { home: { title: '정체성의 집', category: 'About Me & Values', sound: 349.23 }, office: { title: '창조의 오피스', category: 'Projects & Tech', sound: 392.00 }, cafe: { title: '교류의 테라스', category: 'Taste & Life', sound: 440.00 }, observatory: { title: '기록의 전망대', category: 'Leave a Starry Voice', sound: 523.25 } };
     function openBuildingModal(type) {
-      const data = categories[type];
-      if (!data) return;
-
-      // 타이틀 업데이트
-      document.getElementById('modal-category').innerText = data.category;
-      document.getElementById('modal-title').innerText = data.title;
-
-      // 모든 빌딩 컨텐츠 영역 숨기기
-      ['home', 'office', 'cafe', 'observatory'].forEach(item => {
-        document.getElementById(`content-${item}`).classList.add('hidden');
-      });
-
-      // 선택된 빌딩 컨텐츠만 노출
-      document.getElementById(`content-${type}`).classList.remove('hidden');
-
-      // 글래스모피즘 모달 표시
-      modal.classList.remove('hidden');
-      document.body.classList.add('overflow-hidden'); // 뒷 배경 스크롤 방지
-
-      // 감성 사운드 재생
-      playWarmBell(data.sound);
-
-      // 방명록 탭인 경우 전용 로드 실행
-      if (type === 'observatory') {
-        renderGuestbook();
+      const data = categories[type]; if (!data) return;
+      const container = document.getElementById('modal-container'); const header = document.getElementById('modal-header');
+      if (currentTheme === 'dark') {
+        container.className = "bg-slate-900/95 border border-slate-800 rounded-3xl w-full max-w-2xl overflow-hidden max-h-[85vh] flex flex-col shadow-2xl relative text-slate-300";
+        header.className = "p-6 border-b border-slate-800 flex justify-between items-center bg-slate-950/50";
+        document.getElementById('modal-category').className = "text-xs uppercase tracking-widest text-amber-400 font-semibold";
+        document.getElementById('modal-title').className = "text-2xl font-serif-brand font-bold text-amber-100 mt-1";
+      } else {
+        container.className = "bg-white/95 border border-white rounded-3xl w-full max-w-2xl overflow-hidden max-h-[85vh] flex flex-col shadow-2xl relative text-slate-800";
+        header.className = "p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50";
+        document.getElementById('modal-category').className = "text-xs uppercase tracking-widest text-sky-700 font-bold";
+        document.getElementById('modal-title').className = "text-2xl font-serif-brand font-bold text-slate-950 mt-1";
       }
+      document.getElementById('modal-category').innerText = data.category; document.getElementById('modal-title').innerText = data.title;
+      ['home', 'office', 'cafe', 'observatory'].forEach(item => { document.getElementById(`content-${item}`).classList.add('hidden'); });
+      document.getElementById(`content-${type}`).classList.remove('hidden'); modal.classList.remove('hidden'); document.body.classList.add('overflow-hidden'); playWarmBell(data.sound);
+      if (type === 'observatory') renderGuestbook();
     }
-
-    function closeBuildingModal() {
-      modal.classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
-    }
-
-    // 모달 외부 클릭 시 닫기 구현
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        closeBuildingModal();
-      }
-    });
-
-    // 3. 은하수 방명록 시스템 (로컬스토리지 연동)
+    function closeBuildingModal() { modal.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); }
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeBuildingModal(); });
     const STORAGE_KEY = 'midnight_city_guestbook_v1';
-
-    function getGuestbookData() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [
-        { name: '싸피 동료', message: '가영님 모형 제작 솜씨랑 센서 연동 기획 최고입니다! 같이 화이팅해요!' },
-        { name: '전시 기획 전문가', message: 'Cabasse 부스 디자인 실내 레이아웃 동선 설계가 매우 깊이 있네요.' }
-      ];
-    }
-
+    function getGuestbookData() { const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : [{ name: '프로젝트 메이트', message: '가영님의 기획은 항상 디테일이 살아있어요. 이번 프로젝트도 기대되네요!' }, { name: '디자인 파트너', message: '공간을 바라보는 시선이 정말 따뜻합니다. 같이 작업해서 즐거웠어요.' }]; }
     function handleGuestbookSubmit(e) {
-      e.preventDefault();
-      const nameInput = document.getElementById('visitor-name');
-      const messageInput = document.getElementById('visitor-message');
-
-      const name = nameInput.value.trim();
-      const message = messageInput.value.trim();
-
+      e.preventDefault(); const nameInput = document.getElementById('visitor-name'); const messageInput = document.getElementById('visitor-message');
+      const name = nameInput.value.trim(); const message = messageInput.value.trim();
       if (!name || !message) return;
-
-      const currentData = getGuestbookData();
-      currentData.unshift({ name, message });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
-
-      // 입력란 청소
-      nameInput.value = '';
-      messageInput.value = '';
-
-      // 오디오 연동 (높은 행운의 도 음계)
-      playWarmBell(659.25); // E5
-
-      // 방명록 리스트 재렌더링 및 새로운 별 생성
-      renderGuestbook();
-      generateConstellationSky();
+      const currentData = getGuestbookData(); currentData.unshift({ name, message }); localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+      nameInput.value = ''; messageInput.value = ''; playWarmBell(659.25); renderGuestbook(); generateConstellationSky();
     }
-
     function renderGuestbook() {
-      const listContainer = document.getElementById('guestbook-list');
-      const data = getGuestbookData();
-      listContainer.innerHTML = '';
-
+      const listContainer = document.getElementById('guestbook-list'); const data = getGuestbookData(); listContainer.innerHTML = '';
       data.forEach(item => {
         const itemEl = document.createElement('div');
-        itemEl.className = 'p-3 bg-slate-900/80 border border-slate-800 rounded-lg text-xs space-y-1';
-        itemEl.innerHTML = `
-          <div class="flex justify-between items-center text-[10px]">
-            <span class="font-bold text-amber-400">${escapeHtml(item.name)}</span>
-            <span class="text-slate-500">✦ Star</span>
-          </div>
-          <p class="text-slate-300">${escapeHtml(item.message)}</p>
-        `;
+        itemEl.className = currentTheme === 'dark' ? 'p-3 bg-slate-900/80 border border-slate-800 rounded-lg text-xs space-y-1 shadow-sm' : 'p-3 bg-white border border-slate-100 rounded-lg text-xs space-y-1 shadow-sm';
+        itemEl.innerHTML = `<div class="flex justify-between items-center text-[10px]"><span class="font-bold ${currentTheme==='dark'?'text-amber-400':'text-amber-500'}">${escapeHtml(item.name)}</span><span class="text-slate-500">✦ Star</span></div><p class="${currentTheme==='dark'?'text-slate-300':'text-slate-600'}">${escapeHtml(item.message)}</p>`;
         listContainer.appendChild(itemEl);
       });
     }
-
-    // 밤하늘에 실제 방명록 별자리를 생성하는 함수
     function generateConstellationSky() {
-      const sky = document.getElementById('constellation-sky');
-      if (!sky) return;
-      sky.innerHTML = '';
-
-      const data = getGuestbookData();
-      // 최대 15개까지만 하늘에 별로 표현하여 가독성 유지
-      const renderLimit = Math.min(data.length, 15);
-
+      const sky = document.getElementById('constellation-sky'); if (!sky) return; sky.innerHTML = '';
+      const data = getGuestbookData(); const renderLimit = Math.min(data.length, 15);
       for (let i = 0; i < renderLimit; i++) {
-        const star = data[i];
-        
-        // 겹치지 않도록 임의의 2D 평면 분배 위치 연산
-        const leftPercent = 5 + (i * (90 / renderLimit)) + (Math.random() * 4 - 2);
-        const topPercent = 20 + (Math.random() * 50);
-        // 별의 크기 차등 부여
-        const starSize = Math.random() * 3 + 2; // 2px ~ 5px
-
+        const star = data[i]; const leftPercent = 5 + (i * (90 / renderLimit)) + (Math.random() * 4 - 2); const topPercent = 20 + (Math.random() * 50); const starSize = Math.random() * 3 + 2;
         const starEl = document.createElement('div');
-        starEl.className = 'absolute bg-amber-300 rounded-full cursor-pointer hover:bg-amber-100 transition-all duration-300 star-pulse';
-        starEl.style.left = `${leftPercent}%`;
-        starEl.style.top = `${topPercent}%`;
-        starEl.style.width = `${starSize}px`;
-        starEl.style.height = `${starSize}px`;
-        starEl.style.animationDelay = `${Math.random() * 3}s`;
-        
-        // 마우스 호버 시 방명록 내용 툴팁용 타이틀 추가
+        starEl.className = currentTheme === 'dark' ? 'absolute bg-amber-300 rounded-full cursor-pointer hover:bg-amber-100 transition-all duration-300 star-pulse' : 'absolute bg-amber-400 rounded-full cursor-pointer hover:bg-amber-200 transition-all duration-300 star-pulse border border-amber-300/30';
+        starEl.style.left = `${leftPercent}%`; starEl.style.top = `${topPercent}%`; starEl.style.width = `${starSize}px`; starEl.style.height = `${starSize}px`; starEl.style.animationDelay = `${Math.random() * 3}s`;
         starEl.title = `[별빛] ${star.name}: "${star.message}"`;
-
-        // 별 클릭 시 감성 사운드 재생
-        starEl.addEventListener('click', () => {
-          playWarmBell(440 + (i * 20));
-        });
-
-        sky.appendChild(starEl);
+        starEl.addEventListener('click', () => { playWarmBell(440 + (i * 20)); }); sky.appendChild(starEl);
       }
     }
-
-    // HTML 인젝션 방어용 이스케이프 헬퍼
-    function escapeHtml(text) {
-      return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    // 초기 실행
-    window.addEventListener('DOMContentLoaded', () => {
-      generateConstellationSky();
-    });
+    function escapeHtml(text) { return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"); }
+    window.addEventListener('DOMContentLoaded', () => { generateConstellationSky(); });
   </script>
 </body>
 </html>
